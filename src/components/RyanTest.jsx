@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { loadLanguagePack, updateLocale } from '@americanexpress/one-app-ducks';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
 
-export const RyanTest = () => {
+export const RyanTest = props => {
+  console.log(props)
   // naive solution - up to user on how to load in data
   return (
     <div>
@@ -25,14 +25,6 @@ if (!global.BROWSER) {
   // eslint-disable-next-line global-require
   RyanTest.appConfig = require('../appConfig').default;
 }
-
-RyanTest.propTypes = {
-  switchLanguage: PropTypes.func.isRequired,
-  languageData: PropTypes.shape({
-    greeting: PropTypes.string.isRequired,
-  }).isRequired,
-  localeName: PropTypes.string.isRequired,
-};
 
 export const mapDispatchToProps = (dispatch) => ({
   switchLanguage: async ({ target }) => {
@@ -54,10 +46,7 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export const loadModuleData = ({ store, store: { dispatch } }) => { 
-  console.log(store)
-  dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }))
-}
+export const loadModuleData = ({ store: { dispatch } }) => { dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }))}
 
 RyanTest.holocron = {
   name: 'ryan-test',
