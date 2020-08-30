@@ -34,6 +34,7 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 export const mapStateToProps = (state) => {
+  console.log('map to props', state)
   const localeName = state.getIn(['intl', 'activeLocale']);
   const languagePack = state.getIn(
     ['intl', 'languagePacks', localeName, 'ryan-test'],
