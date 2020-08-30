@@ -1,0 +1,5 @@
+// YAhoo Market
+
+export const GET_SUMMARY = 'GET_SUMMARY'
+export const GET_SUMMARY_SUCCESS = 'GET_SUMMARY_SUCCESS'
+export const GET_SUMMARY_FAILURE = 'GET_SUMMARY_FAILURE'
