@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { loadLanguagePack, updateLocale } from '@americanexpress/one-app-ducks';
-import { FormattedMessage, IntlProvider } from 'react-intl';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
 
-export const RyanTest = ({ switchLanguage, languageData, localeName }) => {
-  const locales = ['en-US', 'en-CA', 'es-MX'];
+export const RyanTest = () => {
   // naive solution - up to user on how to load in data
-  return <h1>Booyah</h1>;
+  return (
+    <div>
+      <h1>Booyah</h1>
+    </div>
+  );
 };
 
 // Read about childRoutes:
@@ -52,7 +54,10 @@ export const mapStateToProps = (state) => {
   };
 };
 
-export const loadModuleData = ({ store: { dispatch } }) => dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }));
+export const loadModuleData = ({ store, store: { dispatch } }) => { 
+  console.log(store)
+  dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }))
+}
 
 RyanTest.holocron = {
   name: 'ryan-test',
