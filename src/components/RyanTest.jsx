@@ -5,7 +5,7 @@ import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
 
 export const RyanTest = props => {
-  console.log(props)
+  console.log('props\n', props)
 
   return (
     <div>
@@ -21,8 +21,44 @@ if (!global.BROWSER) {
   RyanTest.appConfig = require('../appConfig').default;
 }
 
-RyanTest.holocron = {
-  name: 'ryan-test'
+export const mapDispatchToProps = (dispatch) => ({
+  switchLanguage: async ({ target }) => {
+    await dispatch(updateLocale(target.value));
+    await dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }));
+  },
+});
+
+export const mapStateToProps = (state) => {
+  const localeName = state.getIn(['intl', 'activeLocale']);
+  const languagePack = state.getIn(
+    ['intl', 'languagePacks', localeName, 'ryan-test'],
+    fromJS({})
+  ).toJS();
+
+  return {
+    languageData: languagePack && languagePack.data ? languagePack.data : {},
+    localeName,
+  };
 };
 
-export default RyanTest;
+const loadModuleData = async ({ store, fetchClient , ownProps, module }) => {
+  console.log('store\n', store)
+  console.log('fetchClient\n', fetchClient)
+  console.log('ownProps\n', ownProps)
+  console.log('module\n', module)
+  // const moduleState = store.getState().getIn(['modules', 'ryan-test'])
+  // // If isComplete and data already exists dont run request again
+  // if (moduleState.get('isComplete') && moduleState.get('data')) {
+  //   return;
+  // }
+  // store.dispatch({ type: GET_SUMMARY })
+}
+
+// export const loadModuleData = ({ store: { dispatch } }) => { dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }))}
+
+RyanTest.holocron = {
+  name: 'ryan-test',
+  loadModuleData,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RyanTest);
