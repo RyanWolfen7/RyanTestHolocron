@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { loadLanguagePack, updateLocale } from '@americanexpress/one-app-ducks';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
+import { yahooMarket } from '../actions/index'
+import { GET_SUMMARY } from '../types';
 
 export const RyanTest = props => {
   console.log('props\n', props)
@@ -45,13 +47,16 @@ const loadModuleData = async ({ store, fetchClient , ownProps, module }) => {
   console.log('store\n', store)
   console.log('fetchClient\n', fetchClient)
   console.log('ownProps\n', ownProps)
-  console.log('module\n', module)
-  // const moduleState = store.getState().getIn(['modules', 'ryan-test'])
+  const moduleState = store.getState().getIn(['modules', 'ryan-test'])
+  if (moduleState.get('isComplete') && moduleState.get('data')) {
+    return;
+  }
+  store.dispatch({ type: GET_SUMMARY })
+  const response = await fetchClient(yahooMarket.getSummary())
+  const data = await response.json()
+  store.dispatch({ type: GET_SUMMARY, data})
+  console.log('module\n', module, moduleState)
   // // If isComplete and data already exists dont run request again
-  // if (moduleState.get('isComplete') && moduleState.get('data')) {
-  //   return;
-  // }
-  // store.dispatch({ type: GET_SUMMARY })
 }
 
 // export const loadModuleData = ({ store: { dispatch } }) => { dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }))}
