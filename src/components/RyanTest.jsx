@@ -3,7 +3,8 @@ import { loadLanguagePack, updateLocale } from '@americanexpress/one-app-ducks';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 import childRoutes from '../childRoutes';
-import { yahooMarket } from '../actions/index'
+import { yahooMarketActions } from '../actions/index'
+import reducer from '../reducers/index'
 import { GET_SUMMARY } from '../types';
 
 export const RyanTest = props => {
@@ -30,7 +31,7 @@ export const mapDispatchToProps = (dispatch) => ({
     await dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }));
   },
   markets: async ( type ) => {
-    await dispatch(yahooMarket.getSummary())
+    await dispatch(yahooMarketActions.getSummary())
   }
 });
 
@@ -41,7 +42,7 @@ export const mapStateToProps = (state) => {
     fromJS({})
   ).toJS();
   console.log('state', state)
-  const yahooMarket = state.getIn(['intl', 'markets'])
+  const yahooMarket = reducer
   console.log('state2', yahooMarket)
 
   return {
