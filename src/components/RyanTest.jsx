@@ -9,7 +9,6 @@ import { GET_SUMMARY } from '../types';
 
 export const RyanTest = props => {
   console.log('props\n', props)
-  // const { isLoading, marketSummary, error } = useSelector(( state ) => { state.getSummary})
   
   return (
     <div>
@@ -30,23 +29,21 @@ export const mapDispatchToProps = (dispatch) => ({
     await dispatch(updateLocale(target.value));
     await dispatch(loadLanguagePack('ryan-test', { fallbackLocale: 'en-US' }));
   },
-  markets: async ( type ) => {
+  markets: async () => {
     await dispatch(yahooMarketActions.getSummary())
   }
 });
 
 export const mapStateToProps = (state) => {
-  const localeName = state.getIn(['intl', 'activeLocale']);
-  const languagePack = state.getIn(
-    ['intl', 'languagePacks', localeName, 'ryan-test'],
-    fromJS({})
-  ).toJS();
+  const localeName = state.getIn(['holocron', 'loading']);
+  // const languagePack = state.getIn(
+  //   ['intl', 'languagePacks', localeName, 'ryan-test'],
+  //   fromJS({})
+  // ).toJS();
   console.log('state', state)
-  const yahooMarket = reducer
-  console.log('state2', yahooMarket)
+  console.log('state2', localeName)
 
   return {
-    languageData: languagePack && languagePack.data ? languagePack.data : {},
     localeName
   };
 };
